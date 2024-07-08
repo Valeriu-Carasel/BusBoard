@@ -13,7 +13,7 @@ async function askForStopCode(): Promise<string> {
 }
 
 
-type jsonBus = {
+interface JsonBus{
     id: string,
     operationType: number,
     "vehicleId": string,
@@ -43,7 +43,7 @@ type jsonBus = {
     }
 }
 
-function compareArrivalTimes(firstBus: jsonBus, secondBus: jsonBus): number {
+function compareArrivalTimes(firstBus: JsonBus, secondBus: JsonBus): number {
     let firsTime: Date = new Date(firstBus.expectedArrival);
     let secondTime: Date = new Date(secondBus.expectedArrival);
     if (firsTime < secondTime) {
@@ -55,16 +55,16 @@ function compareArrivalTimes(firstBus: jsonBus, secondBus: jsonBus): number {
     return 1;
 }
 
-async function getDataFromAPI(code: string): Promise<jsonBus[]> {
+async function getDataForStopPoints(code: string): Promise<JsonBus[]> {
     try {
         const response = await fetch(`https://api.tfl.gov.uk/StopPoint/${code}/Arrivals/?app_key=0751e7d29b944370b4ad1378bb1c3f66`);
         const data = await response.json();
 
-        let busses: jsonBus[] = data;
+        let busses: JsonBus[] = data;
         compareArrivalTimes(busses[0], busses[1]);
         busses.sort(compareArrivalTimes);
 
-        let max5Busses: jsonBus[] = new Array();
+        let max5Busses: JsonBus[] = new Array();
         for (let i = 0; i < busses.length && i < 5; i++) {
             max5Busses.push(busses[i]);
         }
@@ -74,7 +74,7 @@ async function getDataFromAPI(code: string): Promise<jsonBus[]> {
     }
 }
 
-function printBusesFieldsForUser(busesData: jsonBus[]) {
+function printBusesFieldsForUser(busesData: JsonBus[]) {
     for (let i = 0; i < busesData.length; i++) {
         let busText: string = "";
         busText += "Line name: " + busesData[i].lineName + " | ";
@@ -87,7 +87,7 @@ function printBusesFieldsForUser(busesData: jsonBus[]) {
 
 async function main(): Promise<void> {
     let code: string = await askForStopCode();
-    const first5Buses: jsonBus[] = await getDataFromAPI(code);
+    const first5Buses: JsonBus[] = await getDataForStopPoints(code);
     printBusesFieldsForUser(first5Buses);
 }
 

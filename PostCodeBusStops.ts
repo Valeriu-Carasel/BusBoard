@@ -60,7 +60,38 @@ type geographicData = {
     }
 }
 
-async function getDataFromAPI(code: string): Promise<geographicData> {
+async function getAllStopTypes(): Promise<string[]> {
+    try {
+        const response = await fetch(`https://api.tfl.gov.uk/StopPoint/Meta/StopTypes/?app_key=0751e7d29b944370b4ad1378bb1c3f66`);
+        const data = await response.json();
+
+        let stopTypes: string[] = data;
+        return stopTypes;
+    } catch (error: any) {
+        console.error(error)
+    }
+}
+
+// async function getStopPointsForGeographicData(data: geographicData, stopTypes: string[]): Promise<JsonBus[]> {
+//     try {
+//         const response = await fetch(`https://api.tfl.gov.uk/StopPoint/${code}/Arrivals/?app_key=0751e7d29b944370b4ad1378bb1c3f66`);
+//         const data = await response.json();
+//
+//         let busses: JsonBus[] = data;
+//         compareArrivalTimes(busses[0], busses[1]);
+//         busses.sort(compareArrivalTimes);
+//
+//         let max5Busses: JsonBus[] = new Array();
+//         for (let i = 0; i < busses.length && i < 5; i++) {
+//             max5Busses.push(busses[i]);
+//         }
+//         return busses;
+//     } catch (error: any) {
+//         console.error(error)
+//     }
+// }
+
+async function getGeographicDataForPostalCode(code: string): Promise<geographicData> {
     try {
         const response = await fetch(`api.postcodes.io/postcodes/${code}`);
         const data = await response.json();
@@ -71,3 +102,8 @@ async function getDataFromAPI(code: string): Promise<geographicData> {
         console.error(error)
     }
 }
+
+function main() {
+    getAllStopTypes();
+}
+main()
