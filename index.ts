@@ -12,6 +12,7 @@ async function askForStopCode(): Promise<string> {
     return code;
 }
 
+
 type jsonBus = {
     id: string,
     operationType: number,
