@@ -21,15 +21,15 @@ async function getDataForStopPoints(code: string): Promise<JsonBus[]> {
         const response = await fetch(`https://api.tfl.gov.uk/StopPoint/${code}/Arrivals/?app_key=0751e7d29b944370b4ad1378bb1c3f66`);
         const data = await response.json();
 
-        let busses: JsonBus[] = data;
+        const busses: JsonBus[] = data;
         busses.sort(Sorter.sortByArrivalTime);
 
         //to be considered, moving this as a separate function
-        let max5Busses: JsonBus[] = new Array();
+        let firstBusses: JsonBus[] = new Array();
         for (let i = 0; i < busses.length && i < 5; i++) {
-            max5Busses.push(busses[i]);
+            firstBusses.push(busses[i]);
         }
-        return max5Busses;
+        return firstBusses;
     } catch (error: any) {
         console.error(error)
     }
