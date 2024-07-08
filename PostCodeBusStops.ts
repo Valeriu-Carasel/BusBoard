@@ -1,5 +1,6 @@
 import {Sorter} from "./Sorter";
 import {JsonBus} from "./JsonBus";
+import {GeographicData} from "./GeographicData";
 
 async function askForPostCode(): Promise<string> {
     const reader = require("readline");
