@@ -12,7 +12,7 @@ async function askForStopCode(): Promise<string> {
     return code;
 }
 
-type jsonBus = {
+interface JsonBus {
     id: string,
     operationType: number,
     "vehicleId": string,
@@ -59,13 +59,13 @@ async function getDataFromAPI(code: string): Promise<jsonBus[]> {
         const response = await fetch(`https://api.tfl.gov.uk/StopPoint/${code}/Arrivals/?app_key=0751e7d29b944370b4ad1378bb1c3f66`);
         const data = await response.json();
 
-        let busses: jsonBus[] = data;
+        const busses: jsonBus[] = data;
         compareArrivalTimes(busses[0], busses[1]);
         busses.sort(compareArrivalTimes);
 
-        let max5Busses: jsonBus[] = new Array();
+        let firstBusses: jsonBus[] = new Array();
         for (let i = 0; i < busses.length && i < 5; i++) {
-            max5Busses.push(busses[i]);
+            firstBusses.push(busses[i]);
         }
         return busses;
     } catch (error: any) {
