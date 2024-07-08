@@ -73,11 +73,21 @@ async function getDataFromAPI(code: string): Promise<jsonBus[]> {
     }
 }
 
-async function main(): Promise<void> {
-    //let code: string = await askForStopCode();
-    let code = "490008660N"; //to be removed later
-    await getDataFromAPI(code);
+function printBusesFieldsForUser(busesData: jsonBus[]) {
+    for (let i = 0; i < busesData.length; i++) {
+        let busText: string = "";
+        busText += "Line name: " + busesData[i].lineName + " | ";
+        busText += "Destination: " + busesData[i].destinationName + " | ";
+        busText += "Route: " + busesData[i].towards + " | ";
+        busText += "Time until it arrives: " + Math.round(busesData[i].timeToStation / 60) + "m";
+        console.log(busText);
+    }
+}
 
+async function main(): Promise<void> {
+    let code: string = await askForStopCode();
+    const first5Buses: jsonBus[] = await getDataFromAPI(code);
+    printBusesFieldsForUser(first5Buses);
 }
 
 main()
