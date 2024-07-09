@@ -23,10 +23,14 @@ const BusDataRow: React.FC<{busData: IJsonBus}> = ({busData}) =>{
   );
 }
 
-const BusDataTable: React.FC<{ bussesData: IJsonBus[] }> = ({bussesData}) =>{
+const BusDataTable: React.FC<{ bussesData: IJsonBus[], buttonPressed: boolean }> = ({bussesData, buttonPressed}) =>{
 
   const rows: React.ReactElement[] = [];//scapam de any mai tarziu
-
+  if (!buttonPressed){
+    return (
+        <div>Search a Stop Point to show available busses.</div>
+    )
+  }
   if(bussesData.length === 0 || bussesData === undefined){
     return(
         <h1>
@@ -53,6 +57,7 @@ const BusDataTable: React.FC<{ bussesData: IJsonBus[] }> = ({bussesData}) =>{
 }
 
 function App(): React.ReactElement {
+    const [buttonPressed, setButtonPressed] = useState<boolean>(false);
     const [stopPoint, setStopPoint] = useState<string>("");
     const [tableData, setTableData] = useState<IJsonBus[]>([]);
 
@@ -60,6 +65,7 @@ function App(): React.ReactElement {
         event.preventDefault(); // to stop the form refreshing the page when it submits
         const data: IJsonBus[] = await getBuses(stopPoint);
         setTableData(data);
+        setButtonPressed(true);
     }
 
     function updatePostcode(data: React.ChangeEvent<HTMLInputElement>): void {
@@ -73,7 +79,7 @@ function App(): React.ReactElement {
             <input type="text" id="postcodeInput" onChange={updatePostcode}/>
             <input type="submit" value="Submit"/>
         </form>
-        <BusDataTable bussesData={tableData} ></BusDataTable>
+        <BusDataTable bussesData={tableData} buttonPressed = {buttonPressed}></BusDataTable>
     </>;
 }
 
