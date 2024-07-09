@@ -1,30 +1,80 @@
 import React, {useState} from 'react';
-import {getBussesForStopPoint} from '../../index'
+import {getDataForStopPoints} from './srcBackEnd/BusStopPointAPI'
+import {IJsonBus} from "./srcBackEnd/IJsonBus";
 
-async function getBuses(stopPoint: string): Promise<string[]> {
-    const bussesString: string = await getBussesForStopPoint(stopPoint);
-    const bussesArray: string[] = bussesString.split(" | ");
-    return bussesArray;
+async function getBuses(stopPoint: string): Promise<IJsonBus[]> {
+    const bussesArray: IJsonBus[] | undefined = await getDataForStopPoints(stopPoint);
+    if (bussesArray != undefined) {
+        return bussesArray;
+    }
+    return new Array();
 }
+
+
+
+const BusDataRow: React.FC<{busData: IJsonBus}> = ({busData}) =>{
+  return (
+      <tr>
+        <td> {busData.lineName} </td>
+        <td> {busData.destinationName} </td>
+        <td> {busData.towards} </td>
+        <td> {Math.round(busData.timeToStation/60)}m </td>
+      </tr>
+  );
+}
+
+const BusDataTable: React.FC<{ bussesData: IJsonBus[] }> = ({bussesData}) =>{
+
+  const rows: React.ReactElement[] = [];//scapam de any mai tarziu
+
+  if(bussesData.length === 0 || bussesData === undefined){
+    return(
+        <h1>
+          There are no available buses!
+        </h1>
+    );
+  }
+
+  for(let i = 0; i < bussesData.length; i++){
+    rows.push(<BusDataRow busData={bussesData[i]}/>);
+  }
+
+  return (
+    <table>
+      <tr>
+        <th>Line name</th>
+        <th>Destination</th>
+        <th>Route</th>
+        <th>Time to station</th>
+      </tr>
+      {rows}
+    </table>
+  );
+}
+
 function App(): React.ReactElement {
-  const [postcode, setPostcode] = useState<string>("");
-  const [tableData, setTableData] = useState<string>("");
-  async function formHandler(event: React.FormEvent<HTMLFormElement>): Promise<void> {
-    event.preventDefault(); // to stop the form refreshing the page when it submits
-    const data = await getBuses(postcode);
-    setTableData(data);
-  }
-  function updatePostcode(data: React.ChangeEvent<HTMLInputElement>): void {
-    setPostcode(data.target.value)
-  }
-  return <>
-    <h1> BusBoard </h1>
-    <form action="" onSubmit={formHandler}>
-      <label htmlFor="postcodeInput"> StopPoint: </label>
-      <input type="text" id="postcodeInput" onChange={updatePostcode}/>
-      <input type="submit" value="Submit"/>
-    </form>
-    {JSON.stringify(tableData, null, 4) /* this will just render the string - try creating a table 'dynamically'! */}
-  </>;
+    const [stopPoint, setStopPoint] = useState<string>("");
+    const [tableData, setTableData] = useState<IJsonBus[]>([]);
+
+    async function formHandler(event: React.FormEvent<HTMLFormElement>): Promise<void> {
+        event.preventDefault(); // to stop the form refreshing the page when it submits
+        const data: IJsonBus[] = await getBuses(stopPoint);
+        setTableData(data);
+    }
+
+    function updatePostcode(data: React.ChangeEvent<HTMLInputElement>): void {
+        setStopPoint(data.target.value)
+    }
+
+    return <>
+        <h1> BusBoard </h1>
+        <form action="" onSubmit={formHandler}>
+            <label htmlFor="postcodeInput"> StopPoint: </label>
+            <input type="text" id="postcodeInput" onChange={updatePostcode}/>
+            <input type="submit" value="Submit"/>
+        </form>
+        <BusDataTable bussesData={tableData} ></BusDataTable>
+    </>;
 }
+
 export default App;
