@@ -30,21 +30,26 @@ async function getDataForStopPoints(code: string): Promise<IJsonBus[]> {
     }
 }
 
-function printBusesFieldsForUser(busesData: IJsonBus[]) {
+function getInfoForBusesFieldsForUser(busesData: IJsonBus[]): string {
     for (let i = 0; i < busesData.length; i++) {
         let busText: string = "";
         busText += "Line name: " + busesData[i].lineName + " | ";
         busText += "Destination: " + busesData[i].destinationName + " | ";
         busText += "Route: " + busesData[i].towards + " | ";
         busText += "Time until it arrives: " + Math.round(busesData[i].timeToStation / 60) + "m";
-        console.log(busText);
+        return busText;
     }
+}
+
+export async function getBussesForStopPoint(code: string): Promise<string>{
+    const first5Buses: IJsonBus[] = await getDataForStopPoints(code);
+    return getInfoForBusesFieldsForUser(first5Buses)
 }
 
 async function main(): Promise<void> {
     let code: string = await askForStopCode();
-    const first5Buses: IJsonBus[] = await getDataForStopPoints(code);
-    printBusesFieldsForUser(first5Buses);
+    const busses:string = await getBussesForStopPoint(code);
+    console.log(busses);
 }
 
 main()
