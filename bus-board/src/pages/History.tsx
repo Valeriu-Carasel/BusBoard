@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from "react";
 import './History.css';
+import styled from "styled-components";
 
+
+function clickImageButton(): void{
+
+}
 
 function History(): React.ReactElement{
     const [dataFromWiki, setDataFromWiki] = useState("");
@@ -9,6 +14,13 @@ function History(): React.ReactElement{
     //         .then(response =>response.json())
     //         .then(json => console.log(json))
     // },[]);
+    const Button = styled.button`
+            background: transparent;
+          border-radius: 3px;
+          border: 2px solid #BF4F74;
+          color: #BF4F74;
+          margin: 0 1em;
+          padding: 0.25em 1em;`
     return (
         <>
             <img src="resources/bus1.jpg"></img>
@@ -26,6 +38,7 @@ function History(): React.ReactElement{
                 <h3>Stats</h3>
                 <p>Stat text</p>
                 <button> b2 </button>
+                <Button>Text pentru buton</Button>
             </div>
         </>
     );
