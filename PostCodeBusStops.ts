@@ -29,7 +29,7 @@ async function getAllStopTypes(): Promise<string[]> {
 
 async function getGeographicDataForPostalCode(code: string): Promise<GeographicData> {
     try {
-        code = code.replace(" ","%20");
+        code = code.replace(" ", "%20");
         const response = await fetch(`https://api.postcodes.io/postcodes/${code}`);
         const location: GeographicData = await response.json();
         return location;
@@ -78,20 +78,10 @@ async function getBusesForStopPoint(code: string): Promise<JsonBus[]> {
         let busses: JsonBus[] = data;
         busses.sort(Sorter.sortByArrivalTime);
 
-        //to be considered, moving this as a separate function
-        let max5Busses: JsonBus[] = new Array();
-        for (let i = 0; i < busses.length && i < 5; i++) {
-            max5Busses.push(busses[i]);
-        }
-        return max5Busses;
+        let firstBusses: JsonBus[] = busses.slice(0, 5);
+        return firstBusses;
     } catch (error: any) {
         console.error(error)
-    }
-}
-
-function concatArrays(array1: any[], array2: any[]): void{
-    for (let i = 0; i < array2.length; i++){
-        array1.push(array2[i]);
     }
 }
 
@@ -103,11 +93,11 @@ async function main() {
 
     let allBuses: JsonBus[] = [];
     let nrOfNonEmptyStations: number = 0;
-    for (let i = 0; i < stopPoints.length && nrOfNonEmptyStations<2; i++){
+    for (let i = 0; i < stopPoints.length && nrOfNonEmptyStations < 2; i++) {
         const busesFirstStop: JsonBus[] = await getBusesForStopPoint(stopPoints[i].id);
         if (busesFirstStop.length != 0) {
             nrOfNonEmptyStations++;
-            concatArrays(allBuses, busesFirstStop);
+            allBuses = allBuses.concat(busesFirstStop);
         }
     }
     printBusesFieldsForUser(allBuses);
