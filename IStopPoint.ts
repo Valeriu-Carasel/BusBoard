@@ -10,9 +10,6 @@ export interface IStopPoint {
     stationNaptan: string,
     accessibilitySummary: string,
     hubNaptanCode: string,
-    //lines: Identifier[]
-    //lineGroup: LineGroup[]
-    //lineModeGroups: LineModeGroup[],
     fullName: string,
     naptanMode: string,
     status: boolean,
@@ -21,8 +18,6 @@ export interface IStopPoint {
     commonName: string,
     distance: number,
     placeType: string,
-    //additionalProperties: AdditionalProperties[],
-    //children: Place[],
     childrenUrls: string[],
     lat: number,
     lon: number
