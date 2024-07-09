@@ -19,29 +19,19 @@ async function askForPostCode(): Promise<string> {
 async function getAllStopTypes(): Promise<string[]> {
     try {
         const response = await fetch(`https://api.tfl.gov.uk/StopPoint/Meta/StopTypes/?app_key=0751e7d29b944370b4ad1378bb1c3f66`);
-        const data = await response.json();
+        const stopTypes = await response.json();
 
-        let stopTypes: string[] = data;
         return stopTypes;
     } catch (error: any) {
         console.error(error)
     }
 }
 
-function getStopTypesHTMLString(stopTypes: string[]): string {
-    let bigString: string = "";
-    for (let i = 0; i < stopTypes.length; i++){
-        bigString += stopTypes.at(i) + ",";
-    }
-    bigString = bigString.slice(0,bigString.length-1);
-    return bigString;
-}
 async function getGeographicDataForPostalCode(code: string): Promise<GeographicData> {
     try {
         code = code.replace(" ","%20");
         const response = await fetch(`https://api.postcodes.io/postcodes/${code}`);
-        const data = await response.json();
-        let location: GeographicData = data;
+        const location: GeographicData = await response.json();
         return location;
     } catch (error: any) {
         console.error(error)
@@ -51,7 +41,7 @@ async function getGeographicDataForPostalCode(code: string): Promise<GeographicD
 async function getStopPointsForGeographicData(geoData: GeographicData, stopTypes: string[]): Promise<any> {
     try {
         const radius = 1000;
-        const stopTypesHTML = getStopTypesHTMLString(stopTypes);
+        const stopTypesHTML = stopTypes.toString();
         const latitude = geoData.result.latitude;
         const longitude = geoData.result.longitude;
 
