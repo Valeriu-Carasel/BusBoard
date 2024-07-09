@@ -1,4 +1,4 @@
-export interface GeographicData{
+export interface IGeographicData {
     status: number,
     result: {
         postcode: string,

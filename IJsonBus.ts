@@ -1,4 +1,4 @@
-export interface JsonBus{
+export interface IJsonBus {
     id: string,
     operationType: number,
     vehicleId: string,

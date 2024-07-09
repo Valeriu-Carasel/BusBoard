@@ -1,7 +1,7 @@
 import {Sorter} from "./Sorter";
-import {JsonBus} from "./JsonBus";
-import {GeographicData} from "./GeographicData";
-import {PartialStopPoint} from "./PartialJSONTypes";
+import {IJsonBus} from "./IJsonBus";
+import {IGeographicData} from "./IGeographicData";
+import {IStopPoint} from "./IStopPoint";
 
 async function askForPostCode(): Promise<string> {
     const reader = require("readline");
@@ -28,18 +28,18 @@ async function getAllStopTypes(): Promise<string[]> {
     }
 }
 
-async function getGeographicDataForPostalCode(code: string): Promise<GeographicData> {
+async function getGeographicDataForPostalCode(code: string): Promise<IGeographicData> {
     try {
         code = code.replace(" ", "%20");
         const response = await fetch(`https://api.postcodes.io/postcodes/${code}`);
-        const location: GeographicData = await response.json();
+        const location: IGeographicData = await response.json();
         return location;
     } catch (error: any) {
         console.error(error)
     }
 }
 
-async function getStopPointsForGeographicData(geoData: GeographicData, stopTypes: string[]): Promise<PartialStopPoint[]> {
+async function getStopPointsForGeographicData(geoData: IGeographicData, stopTypes: string[]): Promise<IStopPoint[]> {
     try {
         const radius = 1000;
         const stopTypesHTML = stopTypes.toString();
@@ -59,7 +59,7 @@ async function getStopPointsForGeographicData(geoData: GeographicData, stopTypes
     }
 }
 
-function printBusesFieldsForUser(busesData: JsonBus[]) {
+function printBusesFieldsForUser(busesData: IJsonBus[]) {
     for (let i = 0; i < busesData.length; i++) {
         let busText: string = "";
         busText += "Station name: " + busesData[i].stationName + " | ";
@@ -71,15 +71,15 @@ function printBusesFieldsForUser(busesData: JsonBus[]) {
     }
 }
 
-async function getBusesForStopPoint(code: string): Promise<JsonBus[]> {
+async function getBusesForStopPoint(code: string): Promise<IJsonBus[]> {
     try {
         const response = await fetch(`https://api.tfl.gov.uk/StopPoint/${code}/Arrivals/?app_key=0751e7d29b944370b4ad1378bb1c3f66`);
         const data = await response.json();
 
-        let busses: JsonBus[] = data;
+        let busses: IJsonBus[] = data;
         busses.sort(Sorter.sortByArrivalTime);
 
-        let firstBusses: JsonBus[] = busses.slice(0, 5);
+        let firstBusses: IJsonBus[] = busses.slice(0, 5);
         return firstBusses;
     } catch (error: any) {
         console.error(error)
@@ -89,13 +89,13 @@ async function getBusesForStopPoint(code: string): Promise<JsonBus[]> {
 async function main() {
     const allStopTypes: string[] = await getAllStopTypes();
     const postalCode: string = await askForPostCode();
-    const geographicData: GeographicData = await getGeographicDataForPostalCode(postalCode);
+    const geographicData: IGeographicData = await getGeographicDataForPostalCode(postalCode);
     const stopPoints = await getStopPointsForGeographicData(geographicData, allStopTypes);
 
-    let allBuses: JsonBus[] = [];
+    let allBuses: IJsonBus[] = [];
     let nrOfNonEmptyStations: number = 0;
     for (let i = 0; i < stopPoints.length && nrOfNonEmptyStations < 2; i++) {
-        const busesFirstStop: JsonBus[] = await getBusesForStopPoint(stopPoints[i].id);
+        const busesFirstStop: IJsonBus[] = await getBusesForStopPoint(stopPoints[i].id);
         if (busesFirstStop.length != 0) {
             nrOfNonEmptyStations++;
             allBuses = allBuses.concat(busesFirstStop);
