@@ -1,5 +1,5 @@
 import React from "react";
-import {IJsonBus} from "../modules/IJsonBus";
+import {IJsonBus} from "../models/IJsonBus";
 import {BusDataRow} from "./BusDataRow";
 
 export const BusDataTable: React.FC<{ bussesData: IJsonBus[], buttonPressed: boolean }> = ({bussesData, buttonPressed}) => {

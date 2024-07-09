@@ -1,5 +1,5 @@
-import {IJsonBus} from "../modules/IJsonBus";
-import {IStopPoint} from "../modules/IStopPoint";
+import {IJsonBus} from "../models/IJsonBus";
+import {IStopPoint} from "../models/IStopPoint";
 
 export class Sorter{
 

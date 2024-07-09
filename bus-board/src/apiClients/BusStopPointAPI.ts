@@ -1,4 +1,4 @@
-import {IJsonBus} from "../modules/IJsonBus";
+import {IJsonBus} from "../models/IJsonBus";
 import {Sorter} from "./Sorter";
 
 export async function getDataForStopPoints(code: string): Promise<IJsonBus[] | undefined> {

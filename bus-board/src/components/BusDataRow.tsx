@@ -1,5 +1,5 @@
 import React from "react";
-import {IJsonBus} from "../modules/IJsonBus";
+import {IJsonBus} from "../models/IJsonBus";
 
 export const BusDataRow: React.FC<{ busData: IJsonBus }> = ({busData}) => {
     return (
