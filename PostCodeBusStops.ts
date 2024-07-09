@@ -1,6 +1,7 @@
 import {Sorter} from "./Sorter";
 import {JsonBus} from "./JsonBus";
 import {GeographicData} from "./GeographicData";
+import {PartialStopPoint} from "./PartialJSONTypes";
 
 async function askForPostCode(): Promise<string> {
     const reader = require("readline");
@@ -38,7 +39,7 @@ async function getGeographicDataForPostalCode(code: string): Promise<GeographicD
     }
 }
 
-async function getStopPointsForGeographicData(geoData: GeographicData, stopTypes: string[]): Promise<any> {
+async function getStopPointsForGeographicData(geoData: GeographicData, stopTypes: string[]): Promise<PartialStopPoint[]> {
     try {
         const radius = 1000;
         const stopTypesHTML = stopTypes.toString();

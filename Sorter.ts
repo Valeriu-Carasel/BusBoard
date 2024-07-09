@@ -1,19 +1,10 @@
 import {JsonBus} from "./JsonBus";
+import {PartialStopPoint} from "./PartialJSONTypes";
 
 export class Sorter{
 
-    public static getFirstFewSortedElements(nrOfElements: number){
-
-    }
-
-    public static sortByDistance(stopPoint1: any, stopPoint2: any): number{
-        if (stopPoint1.distance < stopPoint2.distance) {
-            return -1;
-        }
-        if (stopPoint1.distance == stopPoint2.distance) {
-            return 0;
-        }
-        return 1;
+    public static sortByDistance(stopPoint1: PartialStopPoint, stopPoint2: PartialStopPoint): number{
+        return stopPoint1.distance - stopPoint2.distance;
     }
 
     public static sortByArrivalTime(firstBus: JsonBus, secondBus: JsonBus): number {
