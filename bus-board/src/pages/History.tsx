@@ -1,32 +1,48 @@
 import React, {useEffect, useState} from "react";
 import './History.css';
 import styled from "styled-components";
+import poza1 from "../resources/bus1.jpg";
+import poza2 from "../resources/bus2.jpg";
+import poza3 from "../resources/bus3.jpg";
 
-
-function clickImageButton(): void{
-
-}
+const Div = styled.div`
+        background-image: url(${poza1});
+        width: 1000px;
+        height: 550px;
+        object-fit: fill;
+        background-size:  cover;
+        position: relative;
+    `;
 
 function History(): React.ReactElement{
-    const [dataFromWiki, setDataFromWiki] = useState("");
-    // useEffect(()=> {
-    //     fetch("https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&rvsection=0&titles=Transport_for_London&format=json")
-    //         .then(response =>response.json())
-    //         .then(json => console.log(json))
-    // },[]);
-    const Button = styled.button`
-            background: transparent;
-          border-radius: 3px;
-          border: 2px solid #BF4F74;
-          color: #BF4F74;
-          margin: 0 1em;
-          padding: 0.25em 1em;`
+    const [currentPic,setCurrentPic] = useState(0);
+
+    const clickImageButton = (event : React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+
+        const button: HTMLButtonElement = event.currentTarget;
+        const direction: number = button.id === "Lefty"? -1: 1;
+
+        setCurrentPic(currentPic + direction);
+    };
+
+    useEffect(()=>{
+        const element: HTMLElement | null = document.getElementById("DivPoza");
+        console.log(currentPic);
+        if (element !== null) {
+            switch (Math.abs(currentPic + 3) % 3) {
+                case 0: element.style.backgroundImage = `url(${poza1})`; break;
+                case 1: element.style.backgroundImage = `url(${poza2})`; break;
+                case 2: element.style.backgroundImage = `url(${poza3})`; break;
+            }
+        }
+    },[currentPic])
+
     return (
         <>
-            <img src="resources/bus1.jpg"></img>
-            <div className="HeaderImage">
-                <button className="ClassBottomButtons" id="Lefty"> b1</button>
-                <button className="ClassBottomButtons" id="Righty"> b2 </button>
+            <div className="HeaderImage" id="DivPoza">
+                <button className="ClassBottomButtons" id="Lefty" onClick={clickImageButton}> b1</button>
+                <button className="ClassBottomButtons" id="Righty" onClick={clickImageButton}> b2 </button>
             </div>
             <h1>Titlu</h1>
             <div>
@@ -38,7 +54,6 @@ function History(): React.ReactElement{
                 <h3>Stats</h3>
                 <p>Stat text</p>
                 <button> b2 </button>
-                <Button>Text pentru buton</Button>
             </div>
         </>
     );
