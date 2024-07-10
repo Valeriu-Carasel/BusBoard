@@ -9,7 +9,6 @@ interface BusDataTableProps {
 
 export const BusDataTable: React.FC<BusDataTableProps> = ({bussesData, buttonPressed}) => {
 
-    const rows: React.ReactElement[] = [];
     if (!buttonPressed) {
         return (
             <div>Search a Stop Point to show available busses.</div>
@@ -23,9 +22,9 @@ export const BusDataTable: React.FC<BusDataTableProps> = ({bussesData, buttonPre
         );
     }
 
-    rows.push(...bussesData.map((x: JsonBus): React.ReactElement => {
+   const rows = bussesData.map((x: JsonBus): React.ReactElement => {
         return <BusDataRow busData={x}/>
-    }));
+    });
 
     return (
         <table>
