@@ -1,13 +1,17 @@
 import React from "react";
 import {IJsonBus} from "../models/IJsonBus";
 import {BusDataRow} from "./BusDataRow";
+import LoadingBar from "./LoadingBar";
 
 export const BusDataTable: React.FC<{ bussesData: IJsonBus[], buttonPressed: boolean }> = ({bussesData, buttonPressed}) => {
 
     const rows: React.ReactElement[] = [];//scapam de any mai tarziu
     if (!buttonPressed) {
         return (
-            <div>Search a Stop Point to show available busses.</div>
+            <div>
+                <div>Search a Stop Point to show available busses.</div>
+            </div>
+
         )
     }
     if (bussesData.length === 0 || bussesData === undefined) {
