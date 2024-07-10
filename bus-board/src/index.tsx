@@ -5,6 +5,7 @@ import App from './pages/App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import History from "./pages/History";
+import NavBar from "./components/NavBar";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,6 +13,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
       <BrowserRouter>
+          <NavBar randomNumber={2}></NavBar>
           <Routes>
               <Route path="/busses" element={<App />} />
               <Route path="/history" element={<History />}/>

@@ -1,5 +1,6 @@
 import {JsonBus} from "../models/JsonBus";
-import {Sorter} from "./sorter";
+//import {Sorter} from "./sorter";
+import {Sorter} from "./sorter"
 
 export async function getDataForStopPoints(code: string): Promise<JsonBus[] | undefined> {
     try {

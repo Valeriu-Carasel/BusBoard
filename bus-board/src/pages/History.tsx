@@ -1,18 +1,28 @@
 import React, {useEffect, useState} from "react";
-import './History.css';
-import styled from "styled-components";
 import poza1 from "../resources/bus1.jpg";
 import poza2 from "../resources/bus2.jpg";
 import poza3 from "../resources/bus3.jpg";
+import styled from "@emotion/styled";
 
-const Div = styled.div`
-        background-image: url(${poza1});
-        width: 1000px;
-        height: 550px;
-        object-fit: fill;
-        background-size:  cover;
-        position: relative;
+const DivNou = styled.div`
+    background-image: url("../resources/bus1.jpg");
+    width: 1000px;
+    height: 550px;
+    object-fit: fill;
+    background-size:  cover;
+    position: relative;
     `;
+
+const NavigationButton  = styled.button<{picture: string}>`
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    position: absolute;
+    bottom: 10px;
+    background-image: url(${({picture}) => picture});
+    left: ${({id}) => (id === "Lefty" ? "10px" : "unset")};
+    right: ${({id}) => (id === "Lefty" ? "unset" : "10px")};
+`;
 
 function History(): React.ReactElement{
     const [currentPic,setCurrentPic] = useState(0);
@@ -40,10 +50,10 @@ function History(): React.ReactElement{
 
     return (
         <>
-            <div className="HeaderImage" id="DivPoza">
-                <button className="ClassBottomButtons" id="Lefty" onClick={clickImageButton}> b1</button>
-                <button className="ClassBottomButtons" id="Righty" onClick={clickImageButton}> b2 </button>
-            </div>
+            <DivNou className="HeaderImage" id="DivPoza">
+                <NavigationButton onClick={clickImageButton} id="Lefty" picture="../resources/left-arrow.jpg"></NavigationButton>
+                <NavigationButton id="Righty" onClick={clickImageButton} picture="../resources/right-arrow.jpg"></NavigationButton>
+            </DivNou>
             <h1>Titlu</h1>
             <div>
                 <h2>Titlu sectiune</h2>
