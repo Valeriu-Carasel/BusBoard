@@ -1,26 +1,28 @@
 import React, {useState} from 'react';
-import {getDataForStopPoints} from '../apiClients/BusStopPointAPI'
-import {IJsonBus} from "../models/IJsonBus";
-import {BusDataTable} from "../components/BusDataTable";
+import {getDataForStopPoints} from './apiClients/BusStopPointAPI'
+import {JsonBus} from "./models/JsonBus";
+import {BusDataTable} from "./components/BusDataTable";
 
-async function getBuses(stopPoint: string): Promise<IJsonBus[]> {
-    const bussesArray: IJsonBus[] | undefined = await getDataForStopPoints(stopPoint);
-    return bussesArray != undefined ? bussesArray : new Array<IJsonBus>();
+async function getBuses(stopPoint: string): Promise<JsonBus[]> {
+    const bussesArray: JsonBus[] | undefined = await getDataForStopPoints(stopPoint);
+    return bussesArray !== undefined ? bussesArray : new Array<JsonBus>();
 }
 
-function App(): React.ReactElement {
+const App: React.FC = () =>{
     const [buttonPressed, setButtonPressed] = useState<boolean>(false);
     const [stopPoint, setStopPoint] = useState<string>("");
-    const [tableData, setTableData] = useState<IJsonBus[]>([]);
+    const [tableData, setTableData] = useState<JsonBus[]>([]);
 
     async function formHandler(event: React.FormEvent<HTMLFormElement>): Promise<void> {
         event.preventDefault();
-        const data: IJsonBus[] = await getBuses(stopPoint);
+        const data: JsonBus[] = await getBuses(stopPoint);
+        if (data.length === 0)
+            console.error("There is no array")
         setTableData(data);
         setButtonPressed(true);
     }
 
-    function updateStopPoint(data: React.ChangeEvent<HTMLInputElement>): void {
+    const updateStopPoint = (data: React.ChangeEvent<HTMLInputElement>): void => {
         setStopPoint(data.target.value)
     }
 
