@@ -1,7 +1,11 @@
 import React from "react";
-import {IJsonBus} from "../modules/IJsonBus";
+import {JsonBus} from "../modules/JsonBus";
 
-export const BusDataRow: React.FC<{ busData: IJsonBus }> = ({busData}) => {
+interface BusDataProps {
+    busData: JsonBus
+}
+
+export const BusDataRow: React.FC<BusDataProps> = ({busData}) => {
     return (
         <tr>
             <td> {busData.lineName} </td>

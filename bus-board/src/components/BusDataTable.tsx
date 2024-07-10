@@ -1,26 +1,31 @@
 import React from "react";
-import {IJsonBus} from "../modules/IJsonBus";
+import {JsonBus} from "../modules/JsonBus";
 import {BusDataRow} from "./BusDataRow";
 
-export const BusDataTable: React.FC<{ bussesData: IJsonBus[], buttonPressed: boolean }> = ({bussesData, buttonPressed}) => {
+interface BusDataTableProps {
+    bussesData: JsonBus[],
+    buttonPressed: boolean
+}
 
-    const rows: React.ReactElement[] = [];//scapam de any mai tarziu
+export const BusDataTable: React.FC<BusDataTableProps> = ({bussesData, buttonPressed}) => {
+
+    const rows: React.ReactElement[] = [];
     if (!buttonPressed) {
         return (
             <div>Search a Stop Point to show available busses.</div>
         )
     }
-    if (bussesData.length === 0 || bussesData === undefined) {
+    if (bussesData === undefined || bussesData.length === 0) {
         return (
             <h1>
-                There are no available buses!
+                There are no available busses!
             </h1>
         );
     }
 
-    for (let i = 0; i < bussesData.length; i++) {
-        rows.push(<BusDataRow busData={bussesData[i]}/>);
-    }
+    rows.push(...bussesData.map((x: JsonBus): React.ReactElement => {
+        return <BusDataRow busData={x}/>
+    }));
 
     return (
         <table>
