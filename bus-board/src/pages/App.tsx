@@ -25,7 +25,7 @@ function App(): React.ReactElement {
         setLoading(true);
         getBuses(stopPoint).then(result => {
             setTableData(result);
-            setTimeout(() => {setLoading(false);},1000);
+            setTimeout(() => {setLoading(false);},500);
         });
     }
 
@@ -35,7 +35,7 @@ function App(): React.ReactElement {
 
     const [progressBarPercent,setProgressBarPercent] = useState(0);
     useEffect(() => {
-        setTimeout(() => setProgressBarPercent(100),150);
+        setInterval(() => setProgressBarPercent((Math.floor(Math.random() *100) +1) % 100),350);
     }, []);
 
     return <>

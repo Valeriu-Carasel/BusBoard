@@ -14,11 +14,9 @@ const LoadingBar: React.FC<{perc: number}> = ({perc}) => {
         margin: 50
     };
     const fillerStyles = {
-        marginLeft: `${percent}%`,
-        marginRight: `0%`,
-        transition: 'width 0.25s ease-in-out',
+        transition: 'all 0.2s',
         height: '100%',
-        width: '10%',
+        width: `${percent}%`,
         backgroundColor: "#0000ff",
         borderRadius: 'inherit',
     };
