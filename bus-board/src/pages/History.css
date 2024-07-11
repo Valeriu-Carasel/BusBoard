@@ -1,0 +1,23 @@
+.HeaderImage{
+    background-image: url("../resources/bus1.jpg");
+    width: 1000px;
+    height: 550px;
+    object-fit: fill;
+    background-size:  cover;
+    position: relative;
+}
+
+.ClassBottomButtons{
+    position: absolute;
+    bottom: 10px;
+}
+
+#Lefty{
+    position: absolute;
+    left: 10px;
+}
+
+#Righty{
+    position: absolute;
+    right: 10px;
+}
