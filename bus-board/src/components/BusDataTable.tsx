@@ -1,5 +1,5 @@
 import React from "react";
-import {JsonBus} from "../modules/JsonBus";
+import {JsonBus} from "../models/JsonBus";
 import {BusDataRow} from "./BusDataRow";
 
 interface BusDataTableProps {

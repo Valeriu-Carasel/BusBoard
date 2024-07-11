@@ -1,10 +1,10 @@
-import {JsonBus} from "../modules/JsonBus";
-import {StopPoint} from "../modules/StopPoint";
+import {JsonBus} from "../models/JsonBus";
+import {StopPoint} from "../models/StopPoint";
 
 export class Sorter{
 
-    public static sortByDistance(firstStopPoint: StopPoint, secondStopPoint: StopPoint): number{
-        return firstStopPoint.distance - secondStopPoint.distance;
+    public static sortByDistance(stopPoint1: StopPoint, stopPoint2: StopPoint): number{
+        return stopPoint1.distance - stopPoint2.distance;
     }
 
     public static sortByArrivalTime(firstBus: JsonBus, secondBus: JsonBus): number {

@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import {getDataForStopPoints} from './apiClients/BusStopPointAPI'
-import {JsonBus} from "./modules/JsonBus";
-import {BusDataTable} from "./components/BusDataTable";
+import {getDataForStopPoints} from '../apiClients/BusStopPointAPI'
+import {JsonBus} from "../models/JsonBus";
+import {BusDataTable} from "../components/BusDataTable";
+import NavBar from "../components/NavBar";
 
 async function getBuses(stopPoint: string): Promise<JsonBus[]> {
     const bussesArray: JsonBus[] | undefined = await getDataForStopPoints(stopPoint);
